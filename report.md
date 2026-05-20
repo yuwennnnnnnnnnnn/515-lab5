@@ -4,11 +4,11 @@
 
 ### Local Inference (High Confidence)
 
-<!-- Insert screenshot here -->
+![Local Inference](images/serial_monitor.png)
 
 ### Cloud Inference (Low Confidence)
 
-<!-- Insert screenshot here -->
+![Cloud Inference](images/serial_monitor.png)
 
 ---
 
