@@ -12,9 +12,9 @@
 #define NEOPIXEL_COUNT  8
 #define CONFIDENCE_THRESHOLD 80.0
 
-const char* ssid     = "YOUR_WIFI_SSID";
-const char* password = "YOUR_WIFI_PASSWORD";
-const char* serverUrl = "http://YOUR_SERVER_IP:8000/predict";
+const char* ssid     = "UW MPSK";
+const char* password = "hYwezXddvGwFq4qa";
+const char* serverUrl = "http://10.19.201.50:8000/predict";
 
 Adafruit_LSM6DS3    imu;
 Adafruit_NeoPixel   pixel(NEOPIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
@@ -200,6 +200,8 @@ void setup() {
     imu.setAccelDataRate(LSM6DS_RATE_104_HZ);
     Serial.println("LSM6DS3 initialized");
 
+    WiFi.mode(WIFI_STA);
+    Serial.print("ESP32 MAC: "); Serial.println(WiFi.macAddress());
     Serial.println("Connecting to WiFi...");
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {

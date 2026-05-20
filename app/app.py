@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
-from tensorflow.keras.models import load_model
 import numpy as np
+import joblib
 
 app = Flask(__name__)
 
-# Load model once at startup
-model = load_model("wand_model.h5")
-gesture_labels = ["V", "O", "Z"]
+model = joblib.load("wand_model.pkl")
+scaler = joblib.load("scaler.pkl")
+gesture_labels = ["O", "V", "Z"]
 
 @app.route("/", methods=["GET"])
 def home():
@@ -19,12 +19,13 @@ def predict():
         if not data:
             raise ValueError("Missing 'data' field")
 
-        input_array = np.array(data).reshape(1, -1)  # Reshape for model input
-        prediction = model.predict(input_array)
+        input_array = np.array(data).reshape(1, -1)
+        input_array = scaler.transform(input_array)
+        proba = model.predict_proba(input_array)[0]
 
-        top_index = int(np.argmax(prediction))
+        top_index = int(np.argmax(proba))
         label = gesture_labels[top_index]
-        confidence = float(prediction[0][top_index]) * 100
+        confidence = float(proba[top_index]) * 100
 
         return jsonify({
             "gesture": label,
